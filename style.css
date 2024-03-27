@@ -1,0 +1,105 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#stats {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+#letters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 50px;
+  flex-wrap: wrap;
+}
+
+#mot {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+#lettres button {
+  margin: 5px;
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+#pendu {
+  margin: 20px 0;
+}
+
+.button3D {
+  background-color: #56d05a; /* Couleur de fond */
+  border: none; /* Pas de bordure */
+  color: white; /* Couleur du texte */
+  text-align: center; /* Centrer le texte */
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  box-shadow: 0 9px #44a648; /* Ajoutez une ombre pour l'effet 3D */
+  width: 50px; /* Largeur du bouton */
+  height: 50px; /* Hauteur du bouton */
+  border-radius: 8px; /* Coins arrondis */
+  transition: all 0.1s; /* Ajoute une transition pour une animation en douceur */
+}
+
+.button3D:active:not(:disabled) {
+  background-color: #4cbc4f; /* Couleur de fond */
+  box-shadow: 0 5px #44a648;
+  transform: translateY(
+    4px
+  ); /* Déplace le bouton vers le bas lorsqu'il est cliqué */
+}
+
+.button3D:disabled {
+  background-color: #c0c0c0; /* Couleur de fond */
+  box-shadow: 0 9px #a0a0a0; /* Ajoutez une ombre pour l'effet 3D */
+  cursor: not-allowed;
+}
+
+.restart_button {
+  background-color: #f44336; /* Couleur de fond */
+  border: none; /* Pas de bordure */
+  color: white; /* Couleur du texte */
+  text-align: center; /* Centrer le texte */
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  box-shadow: 0 9px #c62828; /* Ajoutez une ombre pour l'effet 3D */
+  width: 100px; /* Largeur du bouton */
+  height: 40px; /* Hauteur du bouton */
+  border-radius: 8px; /* Coins arrondis */
+  transition: all 0.1s; /* Ajoute une transition pour une animation en douceur */
+}
+
+.restart_button:active {
+  background-color: #d32f2f; /* Couleur de fond */
+  box-shadow: 0 5px #c62828;
+  transform: translateY(
+    4px
+  ); /* Déplace le bouton vers le bas lorsqu'il est cliqué */
+}
+
+/* media 768px */
+
+@media (max-width: 768px) {
+  #letters {
+    margin: 10px 0;
+  }
+  .button3D {
+    width: 30px;
+    height: 30px;
+  }
+}

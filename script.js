@@ -1,32 +1,24 @@
+const maxErrors = 30;
 let words = [];
 let chosenWord = "";
 let errors = 0;
-const maxErrors = 30;
 
-// Ensures loadWords is called at the right time and that chosenWord can never be undefined due to incorrect timing.
-function loadWords() {
-  fetch("data.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      words = data.words;
-      if (words.length > 0) {
-        reset();
-      } else {
-        console.error("The JSON file does not contain any words or is empty.");
-      }
-    })
-    .catch((error) => console.error("Error loading words:", error));
+async function loadWords() {
+  try {
+    const response = await fetch("data.json");
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    words = data.words;
+    if (words.length > 0) reset();
+    else console.error("The JSON file does not contain any words or is empty.");
+  } catch (error) {
+    console.error("Error loading words:", error);
+  }
 }
 
-// check if error is less than maxErrors
 function checkErrors() {
   if (errors >= maxErrors) {
-    alert(" You lost, The word was: " + chosenWord);
+    alert(`You lost, The word was: ${chosenWord}`);
     reset();
   }
 }
@@ -42,73 +34,52 @@ function chooseWord() {
 
 function displayWord() {
   const wordDiv = document.getElementById("word");
-  wordDiv.innerHTML = "";
-  if (chosenWord) {
-    chosenWord.split("").forEach((letter) => {
-      const letterElement = document.createElement("span");
-      letterElement.textContent = "_ ";
-      wordDiv.appendChild(letterElement);
-    });
-  } else {
-    console.log("No chosen word to display.");
-  }
+  wordDiv.innerHTML = chosenWord
+    ? chosenWord
+        .split("")
+        .map(() => "<span>_ </span>")
+        .join("")
+    : "No chosen word to display.";
 }
 
 function generateLetters() {
   const letters =
     "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん";
   const lettersDiv = document.getElementById("letters");
-  lettersDiv.innerHTML = "";
-  letters.split("").forEach((letter) => {
-    const button = document.createElement("button");
-    button.className = "button3D";
-    button.textContent = letter;
-    button.onclick = function () {
-      verifyLetter(letter, button);
-    };
-    lettersDiv.appendChild(button);
-  });
+  lettersDiv.innerHTML = letters
+    .split("")
+    .map(
+      (letter) =>
+        `<button class="button3D" onclick="verifyLetter('${letter}', this)">${letter}</button>`
+    )
+    .join("");
 }
 
 function verifyLetter(chosenLetter, buttonElement) {
-  // Disable the button
   buttonElement.disabled = true;
-
-  // Check if the chosenWord contains the chosenLetter
   if (chosenWord.includes(chosenLetter)) {
-    // If it does, update the display
     const wordDiv = document.getElementById("word");
     const spans = wordDiv.getElementsByTagName("span");
     chosenWord.split("").forEach((letter, index) => {
-      if (letter === chosenLetter) {
-        spans[index].textContent = letter + " ";
-      }
+      if (letter === chosenLetter) spans[index].textContent = letter + " ";
     });
   } else {
-    // If it does not, increment the error counter
     errors++;
-    const errorDiv = document.getElementById("errors");
-    errorDiv.textContent = `エラー: ${errors}/${maxErrors}`;
+    updateErrors();
     checkErrors();
   }
 }
 
-function setError() {
-  const errorDiv = document.getElementById("errors");
-  errorDiv.textContent = `エラー: ${errors}/${maxErrors}`;
-}
-
-function resetErrors() {
-  errors = 0;
+function updateErrors() {
   const errorDiv = document.getElementById("errors");
   errorDiv.textContent = `エラー: ${errors}/${maxErrors}`;
 }
 
 function reset() {
+  errors = 0;
   chooseWord();
   generateLetters();
-  setError();
-  resetErrors();
+  updateErrors();
 }
 
-loadWords(); // Ensure this function is called after the definition of all necessary functions.
+loadWords();

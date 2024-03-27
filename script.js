@@ -63,6 +63,15 @@ function verifyLetter(chosenLetter, buttonElement) {
     chosenWord.split("").forEach((letter, index) => {
       if (letter === chosenLetter) spans[index].textContent = letter + " ";
     });
+
+    // Check if the word has been completely guessed
+    const currentWord = Array.from(spans)
+      .map((span) => span.textContent.trim())
+      .join("");
+    if (currentWord === chosenWord) {
+      alert(`You won! The word was: ${chosenWord}`);
+      reset();
+    }
   } else {
     errors++;
     updateErrors();

@@ -1,4 +1,4 @@
-const maxErrors = 30;
+const maxErrors = 15;
 let words = [];
 let chosenWord = "";
 let errors = 0;
